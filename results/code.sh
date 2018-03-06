@@ -68,4 +68,71 @@ do
 			8)let temp=1;;
 			9)let temp=1;;
 		esac
-		
+		case $t in
+			"O")s=$(printf "%f" "$(echo "$s + $temp * 10"| bc -l)");;
+			"A+")s=$(printf "%f" "$(echo "$s + $temp * 9"| bc -l)");;
+			"A")s=$(printf "%f" "$(echo "$s + $temp * 8.5"| bc -l)");;
+			"B+")s=$(printf "%f" "$(echo "$s + $temp * 8"| bc -l)");;
+			"B")s=$(printf "%f" "$(echo "$s + $temp * 7"| bc -l)");;
+			"C")s=$(printf "%f" "$(echo "$s + $temp * 6"| bc -l)");;
+			"P")s=$(printf "%f" "$(echo "$s + $temp * 5"| bc -l)");;
+			"F");;
+			"FE");;
+			"I");;
+			*)roll=$t
+		esac
+		let c=c+1;
+	done
+	s=$(printf "%.1f" "$(echo "$s/23" | bc -l;)")
+	echo "$roll $s" >> sgpa1.txt;
+done
+
+mapfile < S2.txt;
+for l in `seq 0 122`;
+do
+        ARRAY=(${MAPFILE[$l]});
+        s=0;
+	c=0;
+	temp=0;
+        for t in "${ARRAY[@]}";
+        do
+               case $c in
+                        1)let temp=4;;
+                        2)let temp=4;;
+                        3)let temp=3;;
+                        4)let temp=1;;
+                        5)let temp=1;;
+                        6)let temp=4;;
+                        7)let temp=3;;
+                        8)let temp=3;;
+                        9)let temp=1;;
+                esac
+                case $t in
+                        "O")s=$(printf "%f" "$(echo "$s + $temp * 10"| bc -l)");;
+                        "A+")s=$(printf "%f" "$(echo "$s + $temp * 9"| bc -l)");;
+                        "A")s=$(printf "%f" "$(echo "$s + $temp * 8.5"| bc -l)");;
+                        "B+")s=$(printf "%f" "$(echo "$s + $temp * 8"| bc -l)");;
+                        "B")s=$(printf "%f" "$(echo "$s + $temp * 7"| bc -l)");;
+                        "C")sum=$(printf "%f" "$(echo "$sum + $temp * 6"| bc -l)");;
+                        "P")sum=$(printf "%f" "$(echo "$sum + $temp * 5"| bc -l)");;
+                        "F");;
+                        "FE");;										
+			"I");;
+                        *)roll=$t
+                esac
+                let c=c+1;
+        done
+        s=$(printf "%.1f" "$(echo "$s/24" | bc -l;)")
+        echo "$roll $s" >> sgpa2.txt;
+done
+
+(> TotalCGPA.txt)
+#Calculate SGPA
+paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2*23+$4*24)/47}' > TotalCGPA.txt
+#Download student list
+(wget -q http://14.139.184.212/ask/c4b/c4b.txt -O c4b.txt)
+#Join all 3 files
+(cut -f 4- c4b.txt > c4b1.txt)
+(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt )
+(mv tmpCGPA.txt TotalCGPA.txt)
+
