@@ -53,20 +53,39 @@ sed -i 's/ /\t/g' s2.txt
 credits1=( 4 4 3 3 3 3 1 1 1 )
 credits2=( 4 4 3 1 1 4 3 3 1 )
 
-while read -r line 
-do 
-	sum=0
-	c=0
-	while j in $line
-	do	
-		case j in 	
-			"O") sum=$((10*${credit1[c++]} ));;
-			"A+") sum=$((sum+9*${credit1[c++]} ));;
-			"A") sum=$((sum+8*${credit1[c++]} ));;
- 			"B+") sum=$((sum+7*${credit1[c++]} ));;
- 			"B") sum=$((sum+6*${credit1[c++]} ));;
- 			"C") sum=$((sum+5*${credit1[c++]} ));;
- 			"P") sum=$((sum+4*${credit1[c++]} ));;
- 			"F") sum=$((sum+0*${credit1[c++]} ));;
-		
-	
+#Replacing Grade with corresponding points
+#Sem 1
+sed -i 's/O/10/g' s1.txt
+sed -i 's/A+/9/g' s1.txt
+sed -i 's/A/8.5/g' s1.txt
+sed -i 's/B+/8/g' s1.txt
+sed -i 's/B/7/g' s1.txt
+sed -i 's/C/6/g' s1.txt
+sed -i 's/P/5/g' s1.txt
+sed -i 's/F/0/g' s1.txt
+sed -i 's/FE/0/g' s1.txt
+sed -i 's/I/0/g' s1.txt
+#Sem 2
+sed -i 's/O/10/g' s2.txt
+sed -i 's/A+/9/g' s2.txt
+sed -i 's/A/8.5/g' s2.txt
+sed -i 's/B+/8/g' s2.txt
+sed -i 's/B/7/g' s2.txt
+sed -i 's/C/6/g' s2.txt
+sed -i 's/P/5/g' s2.txt
+sed -i 's/F/0/g' s2.txt
+sed -i 's/FE/0/g' s2.txt
+sed -i 's/I/0/g' s1.txt
+
+awk '{ print ($1" "($2 * 4 + $3 * 4 + $4 * 3 + $5 * 3 + $6 * 3 + $7 * 3 + $8 * 1 + $9 * 1 + $10 * 1)/23)" " }' s1.txt>sgpa1.txt
+awk '{ print ($1" "($2 * 4 + $3 * 4 + $4 * 3 + $5 * 1 + $6 * 1 + $7 * 4 + $8 * 3 + $9 * 3 + $10 * 1)/24) }' s2.txt>sgpa2.txt
+
+join sgpa1.txt sgpa2.txt>new.txt
+sed -i 's/ /\t/g' new.txt
+
+
+
+
+
+
+
