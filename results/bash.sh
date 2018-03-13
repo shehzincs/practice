@@ -58,9 +58,9 @@ credits2=( 4 4 3 1 1 4 3 3 1 )
 sed -i 's/O/10/g' s1.txt
 sed -i 's/A+/9/g' s1.txt
 sed -i 's/A/8.5/g' s1.txt
-sed -i 's/B+/8/g' s1.txt
-sed -i 's/B/7/g' s1.txt
-sed -i 's/C/6/g' s1.txt
+sed -i 's/ B+ /8/g' s1.txt
+sed -i 's/ B /7/g' s1.txt
+sed -i 's/ C /6/g' s1.txt
 sed -i 's/P/5/g' s1.txt
 sed -i 's/F/0/g' s1.txt
 sed -i 's/FE/0/g' s1.txt
@@ -71,7 +71,7 @@ sed -i 's/A+/9/g' s2.txt
 sed -i 's/A/8.5/g' s2.txt
 sed -i 's/B+/8/g' s2.txt
 sed -i 's/B/7/g' s2.txt
-sed -i 's/C/6/g' s2.txt
+sed -i 's/ C /6/g' s2.txt
 sed -i 's/P/5/g' s2.txt
 sed -i 's/F/0/g' s2.txt
 sed -i 's/FE/0/g' s2.txt
@@ -83,9 +83,10 @@ awk '{ print ($1" "($2 * 4 + $3 * 4 + $4 * 3 + $5 * 1 + $6 * 1 + $7 * 4 + $8 * 3
 join sgpa1.txt sgpa2.txt>new.txt
 sed -i 's/ /\t/g' new.txt
 
+wget "http://14.139.184.212/ask/c4b/c4b.txt"
+awk '{ print ($6" "$7" "$8" "$9" ")}' c4b.txt>c.txt
+grep MDL16CS c.txt>s1temp.txt && mv s1temp.txt c.txt
+join new.txt c.txt>temp.txt
 
-
-
-
-
+#sed -i 's/ /\t\t/2' temp.txt
 
