@@ -46,8 +46,8 @@ sed -i 's/)//g' s2.txt
 sed -i 's/\o14//g' s2.txt
 
 #Replacing space with tab
-sed -i 's/ /\t/g' s1.txt
-sed -i 's/ /\t/g' s2.txt
+sed -i 's/ / \t/g' s1.txt
+sed -i 's/ / \t/g' s2.txt
 
 #Array containing the credits of all the 18 subjects in order
 credits1=( 4 4 3 3 3 3 1 1 1 )
@@ -58,9 +58,9 @@ credits2=( 4 4 3 1 1 4 3 3 1 )
 sed -i 's/O/10/g' s1.txt
 sed -i 's/A+/9/g' s1.txt
 sed -i 's/A/8.5/g' s1.txt
-sed -i 's/ B+ /8/g' s1.txt
-sed -i 's/ B /7/g' s1.txt
-sed -i 's/ C /6/g' s1.txt
+sed -i 's/B+/8/g' s1.txt
+sed -i 's/B/7/g' s1.txt
+sed -i 's/C /6/g' s1.txt
 sed -i 's/P/5/g' s1.txt
 sed -i 's/F/0/g' s1.txt
 sed -i 's/FE/0/g' s1.txt
@@ -71,15 +71,17 @@ sed -i 's/A+/9/g' s2.txt
 sed -i 's/A/8.5/g' s2.txt
 sed -i 's/B+/8/g' s2.txt
 sed -i 's/B/7/g' s2.txt
-sed -i 's/ C /6/g' s2.txt
+sed -i 's/C /6/g' s2.txt
 sed -i 's/P/5/g' s2.txt
 sed -i 's/F/0/g' s2.txt
 sed -i 's/FE/0/g' s2.txt
 sed -i 's/I/0/g' s1.txt
 
+#Calculating the Sgpa
 awk '{ print ($1" "($2 * 4 + $3 * 4 + $4 * 3 + $5 * 3 + $6 * 3 + $7 * 3 + $8 * 1 + $9 * 1 + $10 * 1)/23)" " }' s1.txt>sgpa1.txt
 awk '{ print ($1" "($2 * 4 + $3 * 4 + $4 * 3 + $5 * 1 + $6 * 1 + $7 * 4 + $8 * 3 + $9 * 3 + $10 * 1)/24) }' s2.txt>sgpa2.txt
 
+#forming the cgpa
 join sgpa1.txt sgpa2.txt>new.txt
 sed -i 's/ /\t/g' new.txt
 
@@ -88,5 +90,16 @@ awk '{ print ($6" "$7" "$8" "$9" ")}' c4b.txt>c.txt
 grep MDL16CS c.txt>s1temp.txt && mv s1temp.txt c.txt
 join new.txt c.txt>temp.txt
 
-#sed -i 's/ /\t\t/2' temp.txt
+#Arranging the file
+awk '{ print ($4" "$5" "$6":"$1"\t"$2"\t"$3) }' temp.txt>temp1.txt
 
+#Spacing the file
+column -t -s":" temp1.txt>temp2.txt
+
+#Removing unwnted files
+rm c.txt
+rm temp.txt
+rm new.txt
+mv temp2.txt final.txt
+rm temp1.txt
+nano final.txt
