@@ -90,16 +90,13 @@ awk '{ print ($6" "$7" "$8" "$9" ")}' c4b.txt>c.txt
 grep MDL16CS c.txt>s1temp.txt && mv s1temp.txt c.txt
 join new.txt c.txt>temp.txt
 
+#awk '{ print ($1" "$2" "$3" "$4" "(($3 + $4)/2))}' temp.txt>temp2.txt && mv temp2.txt temp.txt
 #Arranging the file
-awk '{ print ($4" "$5" "$6":"$1"\t"$2"\t"$3) }' temp.txt>temp1.txt
+awk '{ print ($4" "$5" "$6" "$7":"$1"\t"$2"\t"$3"\t"(($2+$3)/2)) }' temp.txt>temp1.txt
 
 #Spacing the file
 column -t -s":" temp1.txt>temp2.txt
 
 #Removing unwnted files
-rm c.txt
-rm temp.txt
-rm new.txt
 mv temp2.txt final.txt
-rm temp1.txt
 nano final.txt
